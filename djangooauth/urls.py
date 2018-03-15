@@ -20,5 +20,5 @@ from django.conf.urls import url
 urlpatterns = [
     path('hello/', include('hello.urls')),
     path('admin/', admin.site.urls),
-    url(r'^accounts/login/', include('django_auth_oidc.urls')),
+    url(r'^oidc/', include('mozilla_django_oidc.urls')),
 ]

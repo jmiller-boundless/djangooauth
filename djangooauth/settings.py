@@ -33,11 +33,11 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'mozilla_django_oidc',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_auth_oidc',
 ]
 
 MIDDLEWARE = [
@@ -55,7 +55,7 @@ ROOT_URLCONF = 'djangooauth.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -119,6 +119,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
-AUTH_SERVER='http://localhost:8180/auth/realms/SpringBootKeycloak/'
-AUTH_CLIENT_ID='hello'
-AUTH_CLIENT_SECRET='05846ae0-4ff3-421b-81f5-6d0239d2867a'
+
+AUTHENTICATION_BACKENDS = (
+    'oidc_auth.auth.OpenIDConnectBackend',
+    'django.contrib.auth.backends.ModelBackend',
+    'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
+)
+
+OIDC_RP_CLIENT_ID = 'hello'
+OIDC_RP_CLIENT_SECRET = '05846ae0-4ff3-421b-81f5-6d0239d2867a'
+
+OIDC_OP_AUTHORIZATION_ENDPOINT = "http://localhost:8180/auth/realms/SpringBootKeycloak/protocol/openid-connect/auth"
+OIDC_OP_TOKEN_ENDPOINT = "http://localhost:8180/auth/realms/SpringBootKeycloak/protocol/openid-connect/token"
+OIDC_OP_USER_ENDPOINT = "http://localhost:8180/auth/realms/SpringBootKeycloak/protocol/openid-connect/userinfo"
+
+LOGIN_REDIRECT_URL = "hello/"
+LOGOUT_REDIRECT_URL = "hello/"
